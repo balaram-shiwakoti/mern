@@ -1,7 +1,9 @@
+import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignupPage = () => {
+  const navigate = useNavigate();
   const [value, setValue] = useState({
     email: "",
     password: "",
@@ -15,7 +17,16 @@ const SignupPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(value);
+    axios
+      .post("http://localhost:3000/signup", {
+        email: value.email,
+        password: value.password,
+      })
+      .then((result) => {
+        console.log(result);
+        navigate("/");
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <form
